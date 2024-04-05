@@ -21,7 +21,7 @@ app.use("/sample/books", bookroutes);
 // Connect Database
 connectDB();
 
-app.get('/', (req, res) => res.send('Hello world!'));
+app.get('/', (req, res) => res.send('Back end APi for Tithe'));
 
 const port = process.env.PORT || 8082;
 
