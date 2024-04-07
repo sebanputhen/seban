@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "app": "nodemon app.js",
-    "start": "node app.js"
+    "app": "nodemon --env-file=./config/.env app.js",
+    "start": "node --env-file=./config/.env app.js"
   },
   "keywords": [],
   "author": "",
