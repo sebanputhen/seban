@@ -6,6 +6,7 @@ async function getAllForanes(req, res, next) {
     res.status(200).json(foranes);
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "An Error Occurred while fetching data" });
   }
 }
 
@@ -15,6 +16,7 @@ async function getOneForane(req, res, next) {
     res.status(200).json(forane);
   } catch (err) {
     console.error(err);
+    res.status(500).json({ message: "An Error Occurred while fetching data" });
   }
 }
 
@@ -25,6 +27,9 @@ async function createNewForane(req, res, next) {
     res.status(201).json(newforane);
   } catch (err) {
     console.log(err);
+    res
+      .status(500)
+      .json({ message: "An Error Occurred while Creating Forane" });
   }
 }
 
@@ -38,6 +43,9 @@ async function updateForane(req, res, next) {
     res.status(200).json(updatedForane);
   } catch (err) {
     console.error(err);
+    res
+      .status(500)
+      .json({ message: "An Error Occurred while Updating Forane" });
   }
 }
 
@@ -47,6 +55,9 @@ async function deleteForane(req, res, next) {
     res.status(200).json(deletedForane);
   } catch (err) {
     console.log(err);
+    res
+      .status(500)
+      .json({ message: "An Error Occurred while Deleting Forane" });
   }
 }
 
