@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const foraneSchema = mongoose.Schema({
+const parishSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -8,6 +8,10 @@ const foraneSchema = mongoose.Schema({
   building: {
     type: String,
     required: true,
+  },
+  forane: {
+    type: mongoose.ObjectId,
+    ref: "Forane",
   },
   phone: {
     type: String,
@@ -38,5 +42,5 @@ const foraneSchema = mongoose.Schema({
   },
 });
 
-const Forane = mongoose.model('Forane',foraneSchema)
-module.exports=Forane;
+const Parish = mongoose.model("Parish", parishSchema);
+module.exports = Parish;

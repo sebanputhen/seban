@@ -14,21 +14,22 @@ app.use(express.json());
  app.use(bodyParser.json());*/
 app.use(express.urlencoded({ extended: true }));
 const forane = require("./routes/api/forane");
+const parish = require("./routes/api/parish");
 
 // Connect Database
 connectDB();
 
 app.get("/", (req, res) => {
   res.send(`
-    <h2>API's - Forane</h2>
     <ul>
+        <h2>API's - Forane</h2>
         <li>
-            <h3>Get all Foranes</h3>
+            <h3>Get all Forane</h3>
             <span>https://tithe-backend.onrender.com/forane</span>
         </li>
         <li>
             <h3>Get a Forane by ID</h3>
-            <span>https://tithe-backend.onrender.com/forane/:id</span>
+            <span>https://tithe-backend.onrender.com/forane/:foraneid</span>
         </li>
         <li>
             <h3>Create new Forane</h3>
@@ -37,12 +38,37 @@ app.get("/", (req, res) => {
         </li>
         <li>
             <h3>Update a Forane</h3>
-            <span>https://tithe-backend.onrender.com/forane/:id</span>
+            <span>https://tithe-backend.onrender.com/forane/:foraneid</span>
             <span>Method : PUT </span>
         </li>
         <li>
             <h3>Delete a Forane</h3>
-            <span>https://tithe-backend.onrender.com/forane/:id</span>
+            <span>https://tithe-backend.onrender.com/forane/:foraneid</span>
+            <span>Method : DELETE </span>
+        </li>
+        <br>
+        <h2>Parish</h2>
+        <li>
+            <h3>Get all Parish under a Forane</h3>
+            <span>https://tithe-backend.onrender.com/parish/forane/:foraneid</span>
+        </li>
+        <li>
+            <h3>Get a Parish by ID</h3>
+            <span>https://tithe-backend.onrender.com/parish/:parishid</span>
+        </li>
+        <li>
+            <h3>Create new Parish</h3>
+            <span>https://tithe-backend.onrender.com/parish/newparish </span>
+            <span>Method : POST</span>
+        </li>
+        <li>
+            <h3>Update a Parish</h3>
+            <span>https://tithe-backend.onrender.com/parish/:parishid</span>
+            <span>Method : PUT </span>
+        </li>
+        <li>
+            <h3>Delete a Parish</h3>
+            <span>https://tithe-backend.onrender.com/parish/:parishid</span>
             <span>Method : DELETE </span>
         </li>
     </ul>
@@ -50,6 +76,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/forane", forane);
+app.use("/parish", parish);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 

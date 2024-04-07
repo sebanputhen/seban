@@ -12,7 +12,7 @@ async function getAllForanes(req, res, next) {
 
 async function getOneForane(req, res, next) {
   try {
-    const forane = await Forane.findById(req.params.id);
+    const forane = await Forane.findById(req.params.foraneid);
     res.status(200).json(forane);
   } catch (err) {
     console.error(err);
@@ -36,7 +36,7 @@ async function createNewForane(req, res, next) {
 async function updateForane(req, res, next) {
   try {
     const updatedForane = await Forane.findByIdAndUpdate(
-      req.params.id,
+      req.params.foraneid,
       req.body,
       { new: true }
     );
@@ -51,7 +51,7 @@ async function updateForane(req, res, next) {
 
 async function deleteForane(req, res, next) {
   try {
-    const deletedForane = await Forane.findByIdAndDelete(req.params.id);
+    const deletedForane = await Forane.findByIdAndDelete(req.params.foraneid);
     res.status(200).json(deletedForane);
   } catch (err) {
     console.log(err);

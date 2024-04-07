@@ -1,5 +1,4 @@
 const express = require("express");
-const Forane = require("../../models/Forane");
 const {
   getAllForanes,
   createNewForane,
@@ -10,9 +9,9 @@ const {
 const router = express.Router();
 
 router.get("/", getAllForanes);
-router.get("/:id", getOneForane);
+router.get("/:foraneid", getOneForane);
 router.post("/newforane", createNewForane);
-router.put("/:id", updateForane);
-router.delete("/:id", deleteForane);
+router.put("/:foraneid", updateForane);
+router.delete("/:foraneid", deleteForane);
 
 module.exports = router;
