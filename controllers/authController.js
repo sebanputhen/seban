@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const privatekey =
   "b21210fedcb8b8ea8e0a7e337aebf5496aea278e526f067042eed1dff691d000";
 
-function authenticateRequest(req, res, next) {
+function authRequest(req, res, next) {
   const token = req.cookies.jwttoken;
   if (!token) return res.sendStatus(401)
   jwt.verify(token, privatekey, (err, user) => {
@@ -18,6 +18,11 @@ function authenticateRequest(req, res, next) {
     console.log(user.name);
     next();
   });
+}
+
+async function refresh(req,res,next)
+{
+
 }
 
 async function Signup(req, res, next) {
@@ -48,13 +53,13 @@ async function Login(req, res, next) {
       { userId: user._id, name: user.name },
       privatekey,
       {
-        expiresIn: "1m",
+        expiresIn: "15m",
       }
     );
     res.cookie("jwttoken", jwttoken, {
       secure: true,
       httpOnly: true,
-      maxAge: 1000 * 60 * 1,
+      maxAge: 1000 * 60 * 15,
     });
     console.log(`${user.name} logged in at ${new Date().toISOString()}`);
     return res.status(200).json({ user, message: "Logged In Successfully" });
@@ -64,4 +69,4 @@ async function Login(req, res, next) {
   }
 }
 
-module.exports = { Signup, Login, authenticateRequest };
+module.exports = { Signup, Login, authRequest };
