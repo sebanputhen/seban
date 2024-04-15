@@ -1,11 +1,15 @@
-require('dotenv').config({path:'./config/.env'})
+require("dotenv").config({ path: "./config/.env" });
 const express = require("express");
+const app = express();
 const connectDB = require("./config/db");
 const cors = require("cors");
+const corsOptions = require('./config/corsOptions')
 const cookieParser = require("cookie-parser");
+const { logger } = require("./middleware/logger");
+const { errorHandler } = require("./middleware/errorHandler");
 const port = process.env.PORT || 8082;
-const app = express();
-app.use(cors({ origin: true, credentials: true }));
+app.use(logger);
+app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
@@ -76,8 +80,6 @@ app.get("/", (req, res) => {
 app.use("/forane", forane);
 // app.use("/parish", authRequest, parish);
 app.use("/parish", parish);
-
+app.use(errorHandler)
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
-
-module.exports = app;
