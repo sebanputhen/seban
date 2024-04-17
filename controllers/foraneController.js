@@ -1,16 +1,16 @@
 const Forane = require("../models/Forane");
 
-async function getAllForanes(req, res, next) {
+async function getAllForanes(req, res) {
   try {
     const foranes = await Forane.find().select("_id name");
     res.status(200).json(foranes);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).json({ message: "An Error Occurred while fetching data" });
   }
 }
 
-async function getOneForane(req, res, next) {
+async function getOneForane(req, res) {
   try {
     const forane = await Forane.findById(req.params.foraneid);
     res.status(200).json(forane);
@@ -20,20 +20,20 @@ async function getOneForane(req, res, next) {
   }
 }
 
-async function createNewForane(req, res, next) {
+async function createNewForane(req, res) {
   try {
     const newforane = new Forane(req.body);
     await newforane.save();
     res.status(201).json(newforane);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res
       .status(500)
       .json({ message: "An Error Occurred while Creating Forane" });
   }
 }
 
-async function updateForane(req, res, next) {
+async function updateForane(req, res) {
   try {
     const updatedForane = await Forane.findByIdAndUpdate(
       req.params.foraneid,
@@ -49,12 +49,12 @@ async function updateForane(req, res, next) {
   }
 }
 
-async function deleteForane(req, res, next) {
+async function deleteForane(req, res) {
   try {
     const deletedForane = await Forane.findByIdAndDelete(req.params.foraneid);
     res.status(200).json(deletedForane);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res
       .status(500)
       .json({ message: "An Error Occurred while Deleting Forane" });

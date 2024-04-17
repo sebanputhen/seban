@@ -3,22 +3,21 @@ const express = require("express");
 const app = express();
 const connectDB = require("./config/db");
 const cors = require("cors");
-const corsOptions = require('./config/corsOptions')
+const corsOptions = require("./config/corsOptions");
 const cookieParser = require("cookie-parser");
-const { logger } = require("./middleware/logger");
-const { errorHandler } = require("./middleware/errorHandler");
+const { logger, logEvents } = require("./middleware/logger");
+const errorHandler = require("./middleware/errorHandler");
+const mongoose = require("mongoose");
 const port = process.env.PORT || 8082;
+connectDB();
 app.use(logger);
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
-const forane = require("./routes/api/forane");
-const parish = require("./routes/api/parish");
-// const auth = require("./routes/api/auth");
-// const { authRequest } = require("./controllers/authController");
-
-connectDB();
+const forane = require("./routes/forane");
+const parish = require("./routes/parish");
+const auth = require("./routes/auth");
 
 app.get("/", (req, res) => {
   res.send(`
@@ -75,11 +74,19 @@ app.get("/", (req, res) => {
     </ul>
     `);
 });
-// app.use("/auth", auth);
-// app.use("/forane", authRequest, forane);
+app.use("/auth", auth);
 app.use("/forane", forane);
-// app.use("/parish", authRequest, parish);
 app.use("/parish", parish);
-app.use(errorHandler)
+app.use(errorHandler);
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+mongoose.connection.once("open", () => {
+  app.listen(port, () => console.log(`Server running on port ${port}`));
+});
+
+mongoose.connection.on("error", err => {
+  console.log(err);
+  logEvents(
+    `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,
+    "mongoErrLog.log"
+  );
+});
