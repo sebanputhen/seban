@@ -40,7 +40,7 @@ async function Login(req, res) {
       },
       process.env.ACCESS_TOKEN_SECRET,
       {
-        expiresIn: "1m",
+        expiresIn: "5m",
       }
     );
 
@@ -50,7 +50,7 @@ async function Login(req, res) {
       },
       process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: "2m",
+        expiresIn: "20m",
       }
     );
 
@@ -58,7 +58,7 @@ async function Login(req, res) {
       secure: true,
       httpOnly: true,
       sameSite: "none",
-      maxAge: 1000 * 60 * 2,
+      maxAge: 1000 * 60 * 20,
     });
     console.log(`${user.name} logged in at ${new Date().toISOString()}`);
     res.status(200).json({ accessToken, message: "Logged In Successfully" });
@@ -88,7 +88,7 @@ async function Refresh(req, res) {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: "1m",
+          expiresIn: "5m",
         }
       );
       res.json({ accessToken });

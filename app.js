@@ -21,7 +21,15 @@ const auth = require("./routes/auth");
 
 app.get("/", (req, res) => {
   res.send(`
+  <span>Use Postman to test the API endpoints</span>
     <ul>
+        <h2>Authentication</h2>
+        <li>
+            <h3>Login</h3>
+            <span>https://tithe-backend.onrender.com/auth/login</span><br>
+        </li>
+        <br>
+        <span>After Login we get a string token as a response, add Authorization header to all the protected routes with value "Bearer tokenvalue" </span>
         <h2>API's - Forane</h2>
         <li>
             <h3>Get all Forane</h3>
