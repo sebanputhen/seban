@@ -21,7 +21,7 @@ const auth = require("./routes/auth");
 
 app.get("/", (req, res) => {
   res.send(`
-  <span>Use Postman to test the API endpoints</span>
+  <span>Use Postman to test the API endpoints.</span>
     <ul>
         <h2>Authentication</h2>
         <li>
