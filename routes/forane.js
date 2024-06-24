@@ -7,8 +7,8 @@ const {
   getOneForane,
   deleteForane,
 } = require("../controllers/foraneController");
-const verifyJWT = require("../middleware/verifyJWT")
-router.use(verifyJWT);
+// const verifyJWT = require("../middleware/verifyJWT")
+// router.use(verifyJWT);
 
 router.get("/", getAllForanes);
 router.get("/:foraneid", getOneForane);

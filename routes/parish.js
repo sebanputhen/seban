@@ -7,8 +7,8 @@ const {
   updateParish,
   deleteParish,
 } = require("../controllers/parishController");
-const verifyJWT = require("../middleware/verifyJWT")
-router.use(verifyJWT);
+// const verifyJWT = require("../middleware/verifyJWT")
+// router.use(verifyJWT);
 
 router.get("/forane/:foraneid", getAllParish);
 router.get("/:parishid", getOneParish);
