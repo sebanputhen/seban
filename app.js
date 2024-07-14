@@ -18,6 +18,9 @@ app.use(express.json());
 const forane = require("./routes/forane");
 const parish = require("./routes/parish");
 const auth = require("./routes/auth");
+const koottayma = require("./routes/koottayma");
+const family = require("./routes/family");
+const person = require("./routes/person");
 
 app.get("/", (req, res) => {
   res.send(`
@@ -85,13 +88,16 @@ app.get("/", (req, res) => {
 app.use("/auth", auth);
 app.use("/forane", forane);
 app.use("/parish", parish);
+app.use("/koottayma", koottayma);
+app.use("/family", family);
+app.use("/person", person);
 app.use(errorHandler);
 
 mongoose.connection.once("open", () => {
   app.listen(port, () => console.log(`Server running on port ${port}`));
 });
 
-mongoose.connection.on("error", err => {
+mongoose.connection.on("error", (err) => {
   console.log(err);
   logEvents(
     `${err.no}: ${err.code}\t${err.syscall}\t${err.hostname}`,

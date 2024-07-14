@@ -1,8 +1,10 @@
 const Parish = require("../models/Parish");
 
-async function getAllParish(req, res) {
+async function getAllParishes(req, res) {
   try {
-    const parishes = await Parish.find({ forane: req.params.foraneid }).select("_id name");
+    const parishes = await Parish.find({ forane: req.params.foraneid }).select(
+      "_id name"
+    );
     res.status(200).json(parishes);
   } catch (err) {
     console.error(err);
@@ -13,9 +15,9 @@ async function getAllParish(req, res) {
 async function getOneParish(req, res) {
   try {
     const parish = await Parish.findById(req.params.parishid).populate(
-      "forane", "_id name"
+      "forane",
+      "_id name"
     );
-    console.log(req.params)
     res.status(200).json(parish);
   } catch (err) {
     console.error(err);
@@ -25,9 +27,12 @@ async function getOneParish(req, res) {
 
 async function createNewParish(req, res) {
   try {
-    const newparish = new Parish(req.body);
-    await newparish.save();
-    res.status(201).json(newparish);
+    const parish = await Parish.findOne({ name: req.body.name }).exec();
+    if (!parish) {
+      const newparish = new Parish(req.body);
+      await newparish.save();
+      res.status(201).json(newparish);
+    } else res.status(409).json({ message: "Parish Already Exists" });
   } catch (err) {
     console.error(err);
     res
@@ -65,7 +70,7 @@ async function deleteParish(req, res) {
 }
 
 module.exports = {
-  getAllParish,
+  getAllParishes,
   getOneParish,
   createNewParish,
   updateParish,

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const parishSchema = mongoose.Schema(
+const parishSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -11,8 +11,9 @@ const parishSchema = mongoose.Schema(
       required: true,
     },
     forane: {
-      type: mongoose.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Forane",
+      required: true,
     },
     phone: {
       type: String,

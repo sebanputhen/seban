@@ -22,9 +22,14 @@ async function getOneForane(req, res) {
 
 async function createNewForane(req, res) {
   try {
-    const newforane = new Forane(req.body);
-    await newforane.save();
-    res.status(201).json(newforane);
+    const forane = await Forane.findOne({ name: req.body.name }).exec();
+    if (!forane) {
+      const newforane = new Forane(req.body);
+      await newforane.save();
+      res.status(201).json(newforane);
+    } else {
+      res.status(409).json({ message: "Forane Already Exists" });
+    }
   } catch (err) {
     console.error(err);
     res
