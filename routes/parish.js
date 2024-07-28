@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getAllParish,
+  getAllParishes,
   getOneParish,
   createNewParish,
   updateParish,
@@ -10,7 +10,7 @@ const {
 // const verifyJWT = require("../middleware/verifyJWT")
 // router.use(verifyJWT);
 
-router.get("/forane/:foraneid", getAllParish);
+router.get("/forane/:foraneid", getAllParishes);
 router.get("/:parishid", getOneParish);
 router.post("/newparish", createNewParish);
 router.put("/:parishid", updateParish);

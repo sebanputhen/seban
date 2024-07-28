@@ -3,8 +3,10 @@ const Koottayma = require("../models/Koottayma");
 async function getAllKoottaymas(req, res) {
   try {
     const koottaymas = await Koottayma.find({
-      forane: req.params.foraneid,
-    }).select("_id name").exec();
+      parish: req.params.parishid, //parish as a filter instead of forane
+    })
+      .select("_id name")
+      .exec();
     res.status(200).json(koottaymas);
   } catch (err) {
     console.error(err);
@@ -27,7 +29,8 @@ async function getOneKoottayma(req, res) {
 
 async function createNewKoottayma(req, res) {
   try {
-    const koottayma = await Koottayma.findOne(req.body.name).exec();
+    const { name } = req.body;
+    const koottayma = await Koottayma.findOne({ name }).exec();
     if (!koottayma) {
       const newkoottayma = new Koottayma(req.body);
       await newkoottayma.save();
@@ -74,9 +77,9 @@ async function deleteKoottayma(req, res) {
 }
 
 module.exports = {
-    getAllKoottaymas,
-    getOneKoottayma,
-    createNewKoottayma,
-    updateKoottayma,
-    deleteKoottayma,
-}
+  getAllKoottaymas,
+  getOneKoottayma,
+  createNewKoottayma,
+  updateKoottayma,
+  deleteKoottayma,
+};
