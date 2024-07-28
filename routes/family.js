@@ -9,7 +9,7 @@ const {
   deleteFamily,
 } = require("../controllers/familyController");
 
-router.get("/", getAllFamilies);
+router.get("/:koottaymaid", getAllFamilies);
 router.get("/:familyid", getOneFamily);
 router.post("/newfamily", createNewFamily);
 router.put("/:familyid", updateFamily);

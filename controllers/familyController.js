@@ -2,7 +2,7 @@ const Family = require("../models/Family");
 
 async function getAllFamilies(req, res) {
   try {
-    const families = await Family.find({ parish: req.params.parishid })
+    const families = await Family.find({ koottayma: req.params.koottaymaid })
       .select("_id name")
       .exec();
     res.status(200).json(families);
@@ -18,6 +18,7 @@ async function getOneFamily(req, res) {
       "forane parish koottayma",
       "_id name"
     );
+    console.log(family);
     res.status(200).json(family);
   } catch (err) {
     console.error(err);
@@ -27,7 +28,8 @@ async function getOneFamily(req, res) {
 
 async function createNewFamily(req, res) {
   try {
-    const family = await Family.findOne(req.body.name).exec();
+    const { name } = req.body;
+    const family = await Family.findOne({ name }).exec();
     if (!family) {
       const newFamily = new Family(req.body);
       await newFamily.save();
