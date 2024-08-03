@@ -22,5 +22,5 @@ const koottaymaSchema = new mongoose.Schema(
   }
 );
 
-const Koottayma = mongoose.model("Kottayma", koottaymaSchema);
+const Koottayma = mongoose.model("Koottayma", koottaymaSchema);
 module.exports = Koottayma;

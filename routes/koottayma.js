@@ -9,9 +9,9 @@ const {
   deleteKoottayma,
 } = require("../controllers/koottaymaController");
 
-router.get("/:parishid", getAllKoottaymas);
+router.get("/parish/:parishid", getAllKoottaymas);
 router.get("/:koottaymaid", getOneKoottayma);
-router.post("/newkoottayma", createNewKoottayma);
+router.post("/", createNewKoottayma);
 router.put("/:koottaymaid", updateKoottayma);
 router.delete("/:koottaymaid", deleteKoottayma);
 

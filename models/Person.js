@@ -23,6 +23,18 @@ const personSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
+  education: {
+    type: String,
+    required: true,
+  },
+  occupation: {
+    type: String,
+    required: true,
+  },
   forane: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Forane",
@@ -41,7 +53,42 @@ const personSchema = new mongoose.Schema({
   relation: {
     type: String,
     required: true,
+    enum: [
+      "head",
+      "bride",
+      "groom",
+      "son",
+      "daughter",
+      "deceased",
+      "father",
+      "mother",
+      "brother",
+      "sister",
+    ],
   },
+});
+
+personSchema.pre("save", async function (next) {
+  if (this.relation === "head") {
+    const existingHead = await mongoose.model("Person").findOne({
+      family: this.family,
+      relation: "head",
+    });
+
+    if (existingHead) {
+      return next(new Error("There is already a head in this family."));
+    }
+  }
+  next();
+});
+
+personSchema.post("save", async function (doc, next) {
+  if (doc.relation === "head") {
+    await mongoose
+      .model("Family")
+      .findByIdAndUpdate(doc.family, { head: doc._id });
+  }
+  next();
 });
 
 const Person = mongoose.model("Person", personSchema);

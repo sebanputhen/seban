@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const familySchema = new mongoose.Schema(
   {
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     name: {
       type: String,
       required: true,
@@ -24,6 +29,11 @@ const familySchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Koottayma",
       required: true,
+    },
+    head: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Person",
+      deafult: undefined,
     },
     phone: {
       type: String,

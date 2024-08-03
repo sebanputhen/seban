@@ -7,12 +7,10 @@ const {
   updateParish,
   deleteParish,
 } = require("../controllers/parishController");
-// const verifyJWT = require("../middleware/verifyJWT")
-// router.use(verifyJWT);
 
 router.get("/forane/:foraneid", getAllParishes);
 router.get("/:parishid", getOneParish);
-router.post("/newparish", createNewParish);
+router.post("/", createNewParish);
 router.put("/:parishid", updateParish);
 router.delete("/:parishid", deleteParish);
 

@@ -5,10 +5,16 @@ async function getAllPersons(req, res) {
     const persons = await Person.find({ family: req.params.familyid })
       .select("_id name")
       .exec();
-    res.status(200).json(persons);
+    if (!persons) {
+      res.status(404).json({ message: "No persons found." });
+    } else {
+      res.status(200).json(persons);
+    }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "An Error Occurred while fetching data" });
+    res
+      .status(500)
+      .json({ message: "An error occurred while fetching persons data." });
   }
 }
 
@@ -18,44 +24,52 @@ async function getOnePerson(req, res) {
       "forane parish family",
       "_id name"
     );
-    res.status(200).json(person);
+    if (!person) {
+      res.status(404).json({ message: "Person not found." });
+    } else {
+      res.status(200).json(person);
+    }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "An Error Occurred while fetching data" });
+    res.status(500).json({ message: "An Error Occurred while fetching data." });
   }
 }
 
 async function createNewPerson(req, res) {
   try {
-    const person = await Person.findOne(req.body.name).exec();
+    const person = await Person.findOne({
+      family: req.body.family,
+      name: req.body.name,
+    }).exec();
     if (!person) {
       const newPerson = new Person(req.body);
       await newPerson.save();
-      res.status(201).json(newPerson);
+      res.status(201).json({ message: "Person successfully added to family." });
     } else {
-      res.status(409).json({ message: "Person Already Exists" });
+      res.status(409).json({ message: "Person already exists." });
     }
   } catch (err) {
     console.error(err);
-    res
-      .status(500)
-      .json({ message: "An Error Occurred while Creating Person" });
+    res.status(500).json({ message: err.message });
   }
 }
 
 async function updatePerson(req, res) {
   try {
-    const updatedPerson = await Person.findByIdAndUpdate(
+    const person = await Person.findByIdAndUpdate(
       req.params.personid,
-      req.body,
-      { new: true }
+      req.body
     );
-    res.status(200).json(updatedPerson);
+    if (!person) {
+      res.status(404).json({ message: "Person not found." });
+    } else {
+      res.status(200).json({ message: "Person's data updated successfully." });
+    }
   } catch (err) {
     console.error(err);
     res
       .status(500)
-      .json({ message: "An Error Occurred while Updating Person" });
+      .json({ message: "An error occurred while updating person's data." });
   }
 }
 

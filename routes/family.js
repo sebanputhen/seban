@@ -9,9 +9,9 @@ const {
   deleteFamily,
 } = require("../controllers/familyController");
 
-router.get("/:koottaymaid", getAllFamilies);
+router.get("/kottayma/:koottaymaid", getAllFamilies);
 router.get("/:familyid", getOneFamily);
-router.post("/newfamily", createNewFamily);
+router.post("/", createNewFamily);
 router.put("/:familyid", updateFamily);
 router.delete("/:familyid", deleteFamily);
 
