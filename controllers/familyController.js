@@ -1,4 +1,5 @@
 const Family = require("../models/Family");
+const Person = require("../models/Person");
 
 async function getAllFamilies(req, res) {
   try {
@@ -20,7 +21,7 @@ async function getAllFamilies(req, res) {
 
 async function getOneFamily(req, res) {
   try {
-    const family = await Family.findOne({id:req.params.familyid}).populate(
+    const family = await Family.findOne({ id: req.params.familyid }).populate(
       "forane parish koottayma head",
       "_id name"
     );
@@ -57,13 +58,25 @@ async function createNewFamily(req, res) {
 
 async function updateFamily(req, res) {
   try {
-    const family = await Family.findOneAndUpdate(
-      {id:req.params.familyid},
-      req.body
+    const family = await Family.findOne(
+      { id: req.params.familyid },
     );
     if (!family) {
       res.status(404).json({ message: "Family not found." });
     } else {
+      const newHeadId = req.body.head;
+      if (newHeadId && newHeadId !== family.head.toString()) {
+        const currentHead = await Person.findById(family.head).exec();
+        if (currentHead && currentHead.status === "alive") {
+          return res.status(400).json({
+            message:
+              "Cannot change the head of the family unless the current head is deceased or not assigned.",
+          });
+        }
+        await family.updateHead(newHeadId);
+      }
+      Object.assign(family, req.body);
+      await family.save();
       res.status(200).json({ message: "Family updated successfully." });
     }
   } catch (err) {
@@ -76,7 +89,7 @@ async function updateFamily(req, res) {
 
 async function deleteFamily(req, res) {
   try {
-    const family = await Family.findOneAndDelete({id:req.params.familyid});
+    const family = await Family.findOneAndDelete({ id: req.params.familyid });
     if (!family) {
       res.status(404).json({ message: "Family not found." });
     } else {

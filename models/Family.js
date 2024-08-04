@@ -33,7 +33,7 @@ const familySchema = new mongoose.Schema(
     head: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Person",
-      deafult: undefined,
+      default: undefined,
     },
     phone: {
       type: String,
@@ -60,6 +60,47 @@ const familySchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+familySchema.methods.updateHead = async function (newHeadId) {
+  const Person = mongoose.model("Person");
+  const newHead = await Person.findById(newHeadId);
+  if (!newHead) {
+    throw new Error("New head not found");
+  }
+  if (newHead.family.toString() !== this._id.toString()) {
+    throw new Error("New head does not belong to this family");
+  }
+  if (this.head) {
+    const currentHead = await Person.findById(this.head);
+    const newRelation = determineRelation(currentHead, newHead);
+    await Person.findByIdAndUpdate(this.head, { relation: newRelation });
+  }
+  await Person.findByIdAndUpdate(newHeadId, { relation: "head" });
+  this.head = newHeadId;
+  await this.save();
+  const members = await Person.find({
+    family: this._id,
+    _id: { $ne: newHeadId },
+  });
+  for (const member of members) {
+    const relation = determineRelation(member, newHead);
+    await Person.findByIdAndUpdate(member._id, { relation });
+  }
+};
+
+function determineRelation(member, newHead) {
+  if (newHead.relation === "bride") {
+    return "groom";
+  } else if (newHead.relation === "groom") {
+    return "bride";
+  } else if (newHead.relation === "son" || newHead.relation === "daughter") {
+    if (member.gender === "male") {
+      return "father";
+    } else {
+      return "mother";
+    }
+  }
+}
 
 const Family = mongoose.model("Family", familySchema);
 module.exports = Family;
