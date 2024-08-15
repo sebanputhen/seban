@@ -25,6 +25,7 @@ const auth = require("./routes/auth");
 const koottayma = require("./routes/koottayma");
 const family = require("./routes/family");
 const person = require("./routes/person");
+const transaction = require("./routes/transaction");
 
 app.get("/", (req, res) => {
   res.status(200);
@@ -35,6 +36,7 @@ app.use("/parish", parish);
 app.use("/koottayma", koottayma);
 app.use("/family", family);
 app.use("/person", person);
+app.use("/transaction", transaction);
 app.use(errorHandler);
 
 const specs = swaggerJsdoc(options);

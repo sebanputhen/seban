@@ -73,7 +73,124 @@ const {
  *         - family
  *         - relation
  */
-
+/**
+ * @swagger
+ * /person/family/{familyid}:
+ *   get:
+ *     summary: Get all persons in a family
+ *     tags: [Persons]
+ *     parameters:
+ *       - in: path
+ *         name: familyid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the family
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Person'
+ *       404:
+ *         description: Family not found
+ *       500:
+ *         description: An error occurred while fetching persons data
+ *   post:
+ *     summary: Create a new person
+ *     tags: [Persons]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Person'
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Person'
+ *       500:
+ *         description: An error occurred while creating a new person
+ *
+ * /person/{personid}:
+ *   get:
+ *     summary: Get a person by ID
+ *     tags: [Persons]
+ *     parameters:
+ *       - in: path
+ *         name: personid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the person
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Person'
+ *       404:
+ *         description: Person not found
+ *       500:
+ *         description: An error occurred while fetching person data
+ *   put:
+ *     summary: Update a person
+ *     tags: [Persons]
+ *     parameters:
+ *       - in: path
+ *         name: personid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the person
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Person'
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Person'
+ *       404:
+ *         description: Person not found
+ *       500:
+ *         description: An error occurred while updating person data
+ *   delete:
+ *     summary: Delete a person
+ *     tags: [Persons]
+ *     parameters:
+ *       - in: path
+ *         name: personid
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the person
+ *     responses:
+ *       200:
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: The success message
+ *       500:
+ *         description: An error occurred while deleting person
+ */
 
 router.get("/family/:familyid", getAllPersons);
 router.get("/:personid", getOnePerson);

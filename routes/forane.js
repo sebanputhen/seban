@@ -10,13 +10,51 @@ const {
 
 /**
  * @swagger
- * tags:
- *   name: Foranes
- *   description: API endpoints for managing foranes
- * /foranes:
+ * components:
+ *   schemas:
+ *     Forane:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: The name of the forane.
+ *         building:
+ *           type: string
+ *           description: The building name or number of the forane.
+ *         phone:
+ *           type: string
+ *           description: The phone number of the forane.
+ *         street:
+ *           type: string
+ *           description: The street address of the forane.
+ *         city:
+ *           type: string
+ *           description: The city where the forane is located.
+ *         district:
+ *           type: string
+ *           description: The district where the forane is located.
+ *         state:
+ *           type: string
+ *           description: The state where the forane is located.
+ *         pincode:
+ *           type: string
+ *           description: The postal code of the forane.
+ *       required:
+ *         - name
+ *         - building
+ *         - phone
+ *         - city
+ *         - district
+ *         - state
+ *         - pincode
+ */
+/**
+ * @swagger
+
+ * /forane:
  *   get:
  *     summary: Get all foranes
- *     tags: [Foranes]
+ *     tags: [Forane]
  *     responses:
  *       200:
  *         description: List of foranes
@@ -30,7 +68,7 @@ const {
  *         description: Internal server error
  *   post:
  *     summary: Create a new forane
- *     tags: [Foranes]
+ *     tags: [Forane]
  *     requestBody:
  *       required: true
  *       content:
@@ -44,10 +82,10 @@ const {
  *         description: Forane already exists
  *       500:
  *         description: Internal server error
- * /foranes/{foraneid}:
+ * /forane/{foraneid}:
  *   get:
  *     summary: Get a specific forane by ID
- *     tags: [Foranes]
+ *     tags: [Forane]
  *     parameters:
  *       - in: path
  *         name: foraneid
@@ -68,7 +106,7 @@ const {
  *         description: Internal server error
  *   put:
  *     summary: Update a specific forane by ID
- *     tags: [Foranes]
+ *     tags: [Forane]
  *     parameters:
  *       - in: path
  *         name: foraneid
@@ -91,7 +129,7 @@ const {
  *         description: Internal server error
  *   delete:
  *     summary: Delete a specific forane by ID
- *     tags: [Foranes]
+ *     tags: [Forane]
  *     parameters:
  *       - in: path
  *         name: foraneid
@@ -107,7 +145,6 @@ const {
  *       500:
  *         description: Internal server error
  */
-
 
 router.get("/", getAllForanes);
 router.get("/:foraneid", getOneForane);

@@ -10,6 +10,62 @@ const {
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Family:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The ID of the family
+ *         name:
+ *           type: string
+ *           description: The name of the family
+ *         building:
+ *           type: string
+ *           description: The building of the family
+ *         forane:
+ *           type: string
+ *           description: The ID of the forane
+ *         parish:
+ *           type: string
+ *           description: The ID of the parish
+ *         koottayma:
+ *           type: string
+ *           description: The ID of the koottayma
+ *         head:
+ *           type: string
+ *           description: The ID of the head of the family
+ *         phone:
+ *           type: string
+ *           description: The phone number of the family
+ *         street:
+ *           type: string
+ *           description: The street of the family
+ *         city:
+ *           type: string
+ *           description: The city of the family
+ *         district:
+ *           type: string
+ *           description: The district of the family
+ *         pincode:
+ *           type: string
+ *           description: The pincode of the family
+ *       required:
+ *         - id
+ *         - name
+ *         - building
+ *         - forane
+ *         - parish
+ *         - koottayma
+ *         - phone
+ *         - street
+ *         - city
+ *         - district
+ *         - pincode
+ */
+/**
+ * @swagger
  * /family/kottayma/{koottaymaid}:
  *   get:
  *     summary: Get all families in a specific koottayma
@@ -115,7 +171,6 @@ const {
  *       500:
  *         description: An error occurred while deleting family.
  */
-
 
 router.get("/kottayma/:koottaymaid", getAllFamilies);
 router.get("/:familyid", getOneFamily);

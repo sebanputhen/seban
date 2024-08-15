@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { parse, isAfter } = require("date-fns");
+const { parse, format, isAfter } = require("date-fns");
 
 const personSchema = new mongoose.Schema(
   {
@@ -28,16 +28,19 @@ const personSchema = new mongoose.Schema(
       set: function (value) {
         return parse(value, "dd/MM/yyyy", new Date());
       },
+      get: function (value) {
+        return value ? format(value, "dd/MM/yyyy") : null;
+      },
     },
     phone: {
       type: String,
-      required: true,
       maxlength: 13,
       minlength: 10,
+      unique: true,
     },
     email: {
       type: String,
-      required: true,
+      unique: true,
     },
     education: {
       type: String,
@@ -58,8 +61,7 @@ const personSchema = new mongoose.Schema(
       required: true,
     },
     family: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Family",
+      type: String,
       required: true,
     },
     relation: {
@@ -84,11 +86,32 @@ const personSchema = new mongoose.Schema(
     },
   },
   {
+    id: false,
+    toJSON: {
+      transform: function (doc, ret, options) {
+        delete ret.id;
+        return ret;
+      },
+      getters: true,
+    },
+    toObject: {
+      transform: function (doc, ret, options) {
+        delete ret.id;
+        return ret;
+      },
+      getters: true,
+    },
+  },
+  {
     timestamps: true,
   }
 );
 
 personSchema.pre("save", async function (next) {
+  const family = await mongoose.model("Family").findOne({ id: this.family });
+  if (!family) {
+    return next(new Error("Family not found."));
+  }
   if (this.relation === "head") {
     const existingHead = await mongoose.model("Person").findOne({
       family: this.family,
@@ -98,9 +121,23 @@ personSchema.pre("save", async function (next) {
     if (existingHead) {
       return next(new Error("There is already a head in this family."));
     }
-  } else if (this.status === "deceased") {
-    const family = await mongoose.model("Family").findById(this.family);
-    if (family.head && family.head.toString() === this._id.toString()) {
+  } else {
+    const existingHead = await mongoose.model("Person").findOne({
+      family: this.family,
+      relation: "head",
+    });
+
+    if (!existingHead) {
+      return next(new Error("Please insert the head person first."));
+    }
+  }
+  next();
+});
+
+personSchema.post("findByIdAndUpdate", async function (doc, next) {
+  if (doc.status === "deceased") {
+    const family = await mongoose.model("Family").findOne({ id: doc.family });
+    if (family.head && family.head.toString() === doc._id.toString()) {
       family.head = undefined;
       await family.save();
     }
@@ -110,9 +147,11 @@ personSchema.pre("save", async function (next) {
 
 personSchema.post("save", async function (doc, next) {
   if (doc.relation === "head") {
-    const family = await mongoose.model("Family").findById(doc.family);
-    if (!family.head) {
-      await mongoose.model("Family").findByIdAndUpdate(doc.family, { head: doc._id });
+    const family = await mongoose.model("Family").findOne({ id: doc.family });
+    if (family) {
+      await mongoose
+        .model("Family")
+        .findOneAndUpdate({ id: doc.family }, { head: doc._id });
     }
   }
   next();

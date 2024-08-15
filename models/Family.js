@@ -67,7 +67,7 @@ familySchema.methods.updateHead = async function (newHeadId) {
   if (!newHead) {
     throw new Error("New head not found");
   }
-  if (newHead.family.toString() !== this._id.toString()) {
+  if (newHead.family !== this.id) {
     throw new Error("New head does not belong to this family");
   }
   if (this.head) {
@@ -79,7 +79,7 @@ familySchema.methods.updateHead = async function (newHeadId) {
   this.head = newHeadId;
   await this.save();
   const members = await Person.find({
-    family: this._id,
+    family: this.id,
     _id: { $ne: newHeadId },
   });
   for (const member of members) {
@@ -100,6 +100,14 @@ function determineRelation(member, newHead) {
       return "mother";
     }
   }
+  else if (newHead.relation === "father" || newHead.relation === "mother") {
+    if (member.gender === "male") {
+      return "son";
+    } else {
+      return "daughter";
+    }
+  }
+  
 }
 
 const Family = mongoose.model("Family", familySchema);
