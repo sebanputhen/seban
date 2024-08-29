@@ -89,25 +89,29 @@ familySchema.methods.updateHead = async function (newHeadId) {
 };
 
 function determineRelation(member, newHead) {
-  if (newHead.relation === "bride") {
-    return "groom";
-  } else if (newHead.relation === "groom") {
-    return "bride";
+  if (newHead.relation === "wife") {
+    return "husband";
+  } else if (newHead.relation === "husband") {
+    return "wife";
   } else if (newHead.relation === "son" || newHead.relation === "daughter") {
     if (member.gender === "male") {
       return "father";
     } else {
       return "mother";
     }
-  }
-  else if (newHead.relation === "father" || newHead.relation === "mother") {
+  } else if (newHead.relation === "father" || newHead.relation === "mother") {
     if (member.gender === "male") {
       return "son";
     } else {
       return "daughter";
     }
+  } else if (newHead.relation === "brother" || newHead.relation === "sister") {
+    if (member.gender === "male") {
+      return "brother";
+    } else {
+      return "sister";
+    }
   }
-  
 }
 
 const Family = mongoose.model("Family", familySchema);

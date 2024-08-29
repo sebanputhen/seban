@@ -73,14 +73,18 @@ const personSchema = new mongoose.Schema(
       required: true,
       enum: [
         "head",
-        "bride",
-        "groom",
+        "wife",
+        "husband",
         "son",
         "daughter",
         "father",
         "mother",
         "brother",
         "sister",
+        "son in law",
+        "daughter in law",
+        "grandson",
+        "granddaughter"
       ],
     },
     status: {

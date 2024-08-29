@@ -62,5 +62,23 @@ const transactionSchema = new mongoose.Schema(
   }
 );
 
+transactionSchema.pre("save", async function (next) {
+  const personId = this.person;
+  const year = this.date.getFullYear();
+  const existingTransaction = await this.model
+    .findOne({
+      person: personId,
+      date: {
+        $gte: new Date(`${year}-01-01`),
+        $lte: new Date(`${year}-12-31`),
+      },
+    })
+    .exec();
+  if (existingTransaction) {
+    throw new Error("Only one transaction per person per year is allowed.");
+  }
+  next();
+});
+
 const Transaction = mongoose.model("Transaction", transactionSchema);
 module.exports = Transaction;
