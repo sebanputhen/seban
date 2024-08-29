@@ -60,6 +60,10 @@ const personSchema = new mongoose.Schema(
       ref: "Parish",
       required: true,
     },
+    /*koottayma:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Koottayma",
+    },*/
     family: {
       type: String,
       required: true,

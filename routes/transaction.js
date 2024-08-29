@@ -7,6 +7,7 @@ const {
   calculateForaneTotal,
   calculateParishTotal,
   calculatePersonTotal,
+  updateTransaction,
 } = require("../controllers/transactionController");
 
 /**
@@ -42,7 +43,7 @@ const {
  *         - person
  *         - amountPaid
  *
- * /transactions:
+ * /transaction:
  *   post:
  *     summary: Create a new transaction.
  *     tags:
@@ -130,12 +131,34 @@ const {
  *         description: Successfully calculated the total transaction amount for the person.
  *       500:
  *         description: An error occurred while calculating the total amount for the Person.
+ *
+ * /transaction/{transactionid}:
+ *  put:
+ *    summary: Update a transaction by transactionid.
+ *    tags:
+ *      - Transaction
+ *    parameters:
+ *      - in: path
+ *        name: transactionid
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The ID of the transaction.
+ *    responses:
+ *      200:
+ *         description: Transaction updated successfully.
+ *      500:
+ *         description: An error occured while updating transaction.
+ *      404:
+ *         description: Transaction not found.
+ *
  */
 
-router.post("/", createNewTransaction);
 router.get("/forane/:foraneid", calculateForaneTotal);
 router.get("/parish/:parishid", calculateParishTotal);
 router.get("/family/:familyid", calculateFamilyTotal);
 router.get("/person/:personid", calculatePersonTotal);
+router.post("/", createNewTransaction);
+router.put("/:transactionid", updateTransaction);
 
 module.exports = router;

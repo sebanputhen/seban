@@ -2,14 +2,12 @@ const Transaction = require("../models/Transaction");
 const Person = require("../models/Person");
 const mongoose = require("mongoose");
 
-async function getAllFamilyTransactions(req,res)
-{
+async function getAllFamilyTransactions(req, res) {
   try {
-  }
-  catch (error) {
+  } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error fetching family transactions" });
-    }
+  }
 }
 
 async function createNewTransaction(req, res) {
@@ -89,10 +87,30 @@ async function calculatePersonTotal(req, res) {
   }
 }
 
+async function updateTransaction(req, res) {
+  try {
+    const transaction = await Transaction.findByIdAndUpdate(
+      req.params.transactionid,
+      req.body
+    );
+    if (!transaction) {
+      res.status(404).json({ message: "Transaction not found." });
+    } else {
+      res.status(200).json({ message: "Transaction updated successfully." });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({
+      message: "An error occured while updating transaction.",
+    });
+  }
+}
+
 module.exports = {
   createNewTransaction,
   calculateForaneTotal,
   calculateParishTotal,
   calculateFamilyTotal,
   calculatePersonTotal,
+  updateTransaction,
 };
