@@ -9,6 +9,27 @@ async function getAllFamilyTransactions(req, res) {
     res.status(500).json({ message: "Error fetching family transactions" });
   }
 }
+async function getLatestTransaction(req, res) {
+  try {
+    const transaction = await Transaction.findOne(
+      { person: req.params.personid },
+      {
+        createdAt: -1,
+      }
+    ).exec();
+    if (!transaction) {
+      res
+        .status(404)
+        .json({ message: "No transactions found for this person" });
+    }
+    res.status(200).json(transaction);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ message: "Cannot get person's latest transaction." });
+  }
+}
 
 async function createNewTransaction(req, res) {
   try {
@@ -16,10 +37,8 @@ async function createNewTransaction(req, res) {
     await newTransaction.save();
     res.status(201).json({ message: "Transaction successfully recorded." });
   } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ message: err.message});
+    console.error(err.message);
+    res.status(500).json({ message: err.message });
   }
 }
 
@@ -113,4 +132,5 @@ module.exports = {
   calculateFamilyTotal,
   calculatePersonTotal,
   updateTransaction,
+  getLatestTransaction,
 };

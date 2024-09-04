@@ -8,6 +8,7 @@ const {
   calculateParishTotal,
   calculatePersonTotal,
   updateTransaction,
+  getLatestTransaction,
 } = require("../controllers/transactionController");
 
 /**
@@ -158,6 +159,7 @@ router.get("/forane/:foraneid", calculateForaneTotal);
 router.get("/parish/:parishid", calculateParishTotal);
 router.get("/family/:familyid", calculateFamilyTotal);
 router.get("/person/:personid", calculatePersonTotal);
+router.get("/latest/person/:personid", getLatestTransaction);
 router.post("/", createNewTransaction);
 router.put("/:transactionid", updateTransaction);
 
