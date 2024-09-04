@@ -28,49 +28,33 @@ const transactionSchema = new mongoose.Schema(
     },
     date: {
       type: Date,
-      default: function () {
-        const formattedDate = format(new Date(), "dd/MM/yyyy");
-        return parse(formattedDate, "dd/MM/yyyy", new Date());
-      },
+      default: () => format(new Date(), "dd/MM/yyyy"),
       validate: {
-        validator: function (value) {
-          return !isAfter(value, new Date());
+        validator: (value) => {
+          return !isAfter(value, format(new Date(), "dd/MM/yyyy"));
         },
         message: "Date cannot be after today.",
       },
       set: function (value) {
-        if (typeof value === "string") {
-          return parse(value, "dd/MM/yyyy", new Date());
-        }
-        return value;
-      },
-      get: function (value) {
-        return value ? format(value, "dd/MM/yyyy") : null;
+        return parse(value, "dd/MM/yyyy", new Date());
       },
     },
   },
   {
     timestamps: true,
-  },
-  {
-    toJSON: {
-      getters: true,
-    },
-    toObject: {
-      getters: true,
-    },
   }
 );
 
 transactionSchema.pre("save", async function (next) {
   const personId = this.person;
-  const year = this.date.getFullYear();
-  const existingTransaction = await this.model
+  const year = this.date.split("/")[2];
+  console.log(this.date);
+  const existingTransaction = await this.constructor
     .findOne({
       person: personId,
       date: {
-        $gte: new Date(`${year}-01-01`),
-        $lte: new Date(`${year}-12-31`),
+        $gte: () => format(new Date(`01/01${year}`), "dd/MM/yyyy"),
+        $lte: () => format(new Date(`12/31/${year}`), "dd/MM/yyyy"),
       },
     })
     .exec();
