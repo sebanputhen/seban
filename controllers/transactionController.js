@@ -11,12 +11,12 @@ async function getAllFamilyTransactions(req, res) {
 }
 async function getLatestTransaction(req, res) {
   try {
-    const transaction = await Transaction.findOne(
-      { person: req.params.personid },
-      {
-        createdAt: -1,
-      }
-    ).exec();
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const transaction = await Transaction.findOne({
+      person: req.params.personid,
+      $expr: { $eq: [{ $year: "$createdAt" }, currentYear] },
+    }).exec();
     if (!transaction) {
       res
         .status(404)
