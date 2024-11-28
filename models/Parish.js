@@ -8,7 +8,7 @@ const parishSchema = new mongoose.Schema(
     },
     building: {
       type: String,
-      required: true,
+      required: false,
     },
     forane: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,26 +17,26 @@ const parishSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true,
+      required: false,
     },
     street: {
       type: String,
     },
     city: {
       type: String,
-      required: true,
+      required: false,
     },
     district: {
       type: String,
-      required: true,
+      required: false,
     },
     state: {
       type: String,
-      required: true,
+      required: false,
     },
     pincode: {
       type: String,
-      required: true,
+      required: false,
     }
   },
   {

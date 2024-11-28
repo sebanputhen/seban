@@ -67,6 +67,7 @@ const personSchema = new mongoose.Schema(
     family: {
       type: String,
       required: true,
+      ref: "Family"
     },
     relation: {
       type: String,

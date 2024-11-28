@@ -7,6 +7,10 @@ const {
   createNewPerson,
   updatePerson,
   deletePerson,
+  getPopulationSummary,
+  getPopulationBreakdown,
+  getPopulationByAgeGroups,
+  getGenderDistribution,
 } = require("../controllers/personController");
 
 /**
@@ -190,12 +194,19 @@ const {
  *                   description: The success message
  *       500:
  *         description: An error occurred while deleting person
- */
-
+ *//*
+router.get("/population", getPopulationSummary);
+router.get("/population/forane/:foraneId", getPopulationSummary);
+router.get("/population/startDate/:foraneId/endDate/:foraneId", getPopulationSummary);
+router.get("/population/forane/:foraneId/startDate/:startDate/endDate/:endDate", getPopulationSummary);*/
+router.get('/population', getPopulationSummary);
+router.get('/population/forane/:foraneId', getPopulationSummary);
+router.get('/population/breakdown', getPopulationBreakdown);
+router.get('/population/age-groups', getPopulationByAgeGroups);
+router.get('/population/gender-distribution', getGenderDistribution);
 router.get("/family/:familyid", getAllPersons);
 router.get("/:personid", getOnePerson);
 router.post("/", createNewPerson);
-router.put("/:personid", updatePerson);
+router.put("/:personid", updatePerson);  
 router.delete("/:personid", deletePerson);
-
 module.exports = router;

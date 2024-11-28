@@ -16,6 +16,10 @@ const koottaymaSchema = new mongoose.Schema(
       ref: "Parish",
       required: true,
     },
+    kkey: {
+      type: Number,
+      required: false,
+    },    
   },
   {
     timestamps: true,

@@ -5,6 +5,7 @@ const {
   createNewParish,
   updateParish,
   deleteParish,
+  searchParishes,  
 } = require("../controllers/parishController");
 
 /**
@@ -160,11 +161,10 @@ const {
  *         description: Invalid request body
  * 
  */
-
+router.get("/search", searchParishes);
 router.get("/forane/:foraneid", getAllParishes);
 router.get("/:parishid", getOneParish);
 router.post("/", createNewParish);
 router.put("/:parishid", updateParish);
 router.delete("/:parishid", deleteParish);
-
 module.exports = router;

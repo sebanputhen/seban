@@ -1,6 +1,9 @@
 const express = require("express");
+const multer = require('multer');
+const xlsx = require('xlsx');
 const router = express.Router();
 const {
+  uploadExcel,
   getAllForanes,
   createNewForane,
   updateForane,
@@ -151,5 +154,6 @@ router.get("/:foraneid", getOneForane);
 router.post("/", createNewForane);
 router.put("/:foraneid", updateForane);
 router.delete("/:foraneid", deleteForane);
+router.post('/upload', uploadExcel);
 
 module.exports = router;

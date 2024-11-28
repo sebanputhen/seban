@@ -9,6 +9,10 @@ const {
   calculatePersonTotal,
   updateTransaction,
   getLatestTransaction,
+  getTransactionsByYear,
+  calculateYearlyData,
+  calculateYearlyDataByForane,
+  calculateYearlyDataTotal,
 } = require("../controllers/transactionController");
 
 /**
@@ -162,5 +166,9 @@ router.get("/person/:personid", calculatePersonTotal);
 router.get("/latest/person/:personid", getLatestTransaction);
 router.post("/", createNewTransaction);
 router.put("/:transactionid", updateTransaction);
+router.get("/year/:familyId", getTransactionsByYear);  
+router.get("/yearlyData/:year", calculateYearlyData);
+router.get("/yearly/:year/forane/:foraneId", calculateYearlyDataByForane);
+router.get("/yearlytotal/", calculateYearlyDataTotal);
 
 module.exports = router;

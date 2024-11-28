@@ -55,6 +55,7 @@ const familySchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    familyNumber: { type: Number, required: true }, 
   },
   {
     timestamps: true,

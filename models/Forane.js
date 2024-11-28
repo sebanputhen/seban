@@ -8,30 +8,30 @@ const foraneSchema = new mongoose.Schema(
     },
     building: {
       type: String,
-      required: true,
+      required: false,
     },
     phone: {
       type: String,
-      required: true,
+      required: false,
     },
     street: {
       type: String,
     },
     city: {
       type: String,
-      required: true,
+      required: false,
     },
     district: {
       type: String,
-      required: true,
+      required: false,
     },
     state: {
       type: String,
-      required: true,
+      required: false,
     },
     pincode: {
       type: String,
-      required: true,
+      required: false,
     }
   },
   {
